@@ -25,8 +25,12 @@ namespace BayatGames.SaveGameFree
         /// <summary>
         /// The data path. Application.dataPath
         /// </summary>
-        DataPath
+        DataPath,
 
+        /// <summary>
+        /// 自定義路徑
+        /// </summary>
+        CustomPath
     }
 
     /// <summary>
@@ -167,6 +171,11 @@ namespace BayatGames.SaveGameFree
             }
         }
 
+        /// <summary>
+        /// 若需使用請先自定義
+        /// </summary>
+        /// <value>The custom Save Path.</value>
+        public static string customSavePath = "";
         /// <summary>
         /// Gets or sets the encryption password.
         /// </summary>
@@ -320,6 +329,10 @@ namespace BayatGames.SaveGameFree
                     case SaveGamePath.DataPath:
                         filePath = string.Format("{0}/{1}", Application.dataPath, identifier);
                         break;
+                    case SaveGamePath.CustomPath:
+                        filePath = string.Format("{0}/{1}", customSavePath, identifier);
+                        break;                 
+                                            
                 }
             }
             else
@@ -609,6 +622,9 @@ namespace BayatGames.SaveGameFree
                     case SaveGamePath.DataPath:
                         filePath = string.Format("{0}/{1}", Application.dataPath, identifier);
                         break;
+                    case SaveGamePath.CustomPath:
+                        filePath = string.Format("{0}/{1}", customSavePath, identifier);
+                        break;
                 }
             }
             else
@@ -741,6 +757,9 @@ namespace BayatGames.SaveGameFree
                     case SaveGamePath.DataPath:
                         filePath = string.Format("{0}/{1}", Application.dataPath, identifier);
                         break;
+                    case SaveGamePath.CustomPath:
+                        filePath = string.Format("{0}/{1}", customSavePath, identifier);
+                        break;
                 }
             }
             else
@@ -806,6 +825,9 @@ namespace BayatGames.SaveGameFree
                         break;
                     case SaveGamePath.DataPath:
                         filePath = string.Format("{0}/{1}", Application.dataPath, identifier);
+                        break;
+                    case SaveGamePath.CustomPath:
+                        filePath = string.Format("{0}/{1}", customSavePath, identifier);
                         break;
                 }
             }
@@ -949,6 +971,9 @@ namespace BayatGames.SaveGameFree
                     case SaveGamePath.DataPath:
                         filePath = string.Format("{0}/{1}", Application.dataPath, identifier);
                         break;
+                    case SaveGamePath.CustomPath:
+                        filePath = string.Format("{0}/{1}", customSavePath, identifier);
+                        break;
                 }
             }
             else
@@ -1010,6 +1035,9 @@ namespace BayatGames.SaveGameFree
                         break;
                     case SaveGamePath.DataPath:
                         filePath = string.Format("{0}/{1}", Application.dataPath, identifier);
+                        break;
+                    case SaveGamePath.CustomPath:
+                        filePath = string.Format("{0}/{1}", customSavePath, identifier);
                         break;
                 }
             }
