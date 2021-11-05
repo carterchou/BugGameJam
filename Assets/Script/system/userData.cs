@@ -25,68 +25,6 @@ public class userData : MonoBehaviour
         night
     }
 
-    /*public class skill_data
-    {
-        public int saiminLV; 
-
-        public skill_data(int saiminLV = 0)
-        {
-            this.saiminLV = saiminLV;
-        }
-
-        /// <summary>
-        /// 若tag內包含skill可以丟進來確定玩家是否包含此tag ex. skill_skillName_Lv
-        /// </summary>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public bool check_skillTag(string tag)
-        {
-            //skill(前綴) type Lv
-            string[] skillData = tag.Split('_');
-
-            if (skillData.Length == 3)
-            {
-                switch (skillData[1])
-                {
-                    case "saimin":
-                        int check_LV;
-                        if (Int32.TryParse(skillData[2],out check_LV))
-                        {
-                            if (saiminLV == check_LV) return true;
-                        }
-
-                        break;
-
-                }
-            }
-
-            return false;
-        }
-
-        public void update_skillTag(string tag)
-        {
-            //skill(前綴) type Lv
-            string[] skillData = tag.Split('_');
-
-            if (skillData.Length == 3)
-            {
-                switch (skillData[1])
-                {
-                    case "saimin":
-                        int update_LV;
-                        if (Int32.TryParse(skillData[2], out update_LV))
-                        {
-                            saiminLV += update_LV;
-                            if (saiminLV <= 0) saiminLV = 0;
-                        }
-
-                        break;
-
-                }
-            }
-        }
-    }*/
-
     public class save_data
     {
         public int id;
@@ -103,9 +41,7 @@ public class userData : MonoBehaviour
         public List<string> tag;
         public skillData skill;
 
-        public List<girlData> girlDatas;
-
-        public save_data(int id = -1, string name = "", int game_day = 1,int appDay = 1, int stamina = 100, int money = 0, int gameOverValue = 0, int saiminPoint = 0, TimeType time_Type = TimeType.morning, TimeSpan playTime = new TimeSpan(), List<int> doneEvents = null, List<string> tag = null, skillData skill = null, List<girlData> girlDatas = null)
+        public save_data(int id = -1, string name = "", int game_day = 1,int appDay = 1, int stamina = 100, int money = 0, int gameOverValue = 0, int saiminPoint = 0, TimeType time_Type = TimeType.morning, TimeSpan playTime = new TimeSpan(), List<int> doneEvents = null, List<string> tag = null, skillData skill = null)
         {
             this.id = id;
             this.name = name;
@@ -121,7 +57,6 @@ public class userData : MonoBehaviour
             this.doneEvents = doneEvents == null ? new List<int>() : doneEvents;
             this.skill = skill == null ? new skillData() : skill;
             this.tag = tag == null ? new List<string>() : tag;
-            this.girlDatas = girlDatas == null ? new List<girlData>() : girlDatas;
         }
     }
 
@@ -137,17 +72,6 @@ public class userData : MonoBehaviour
     public save_data GetUserData()
     {
         return data;
-    }
-
-    //存取女角資料
-    public girlData GetUserGirlData(int index)
-    {
-        if (data.girlDatas == null || data.girlDatas.Count <= 0)
-        {
-            Debug.LogWarning("new!");
-            data.girlDatas = new List<girlData> { new girlData("0"), new girlData("1"), new girlData("2") };
-        }
-        return data.girlDatas[index];
     }
 
     public void newPlayerData()
