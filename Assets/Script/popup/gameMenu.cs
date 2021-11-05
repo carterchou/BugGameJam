@@ -7,7 +7,7 @@ public class gameMenu : MonoBehaviour
 
     public void openSave_Load(int type) // type 0 load 1 save
     {
-        popup_manager.GetInstance().show_save_load_window(type);
+        //popup_manager.GetInstance().show_save_load_window(type);
     }
 
     public void openSetting()

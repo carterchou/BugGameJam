@@ -33,27 +33,12 @@ public class popup_manager : MonoBehaviour
 
     public Transform Get_popLayer()
     {
-        if(popLayer == null) instance.popLayer = Instantiate(Resources.Load<GameObject>("prefab/popup/pop_layer"));
-        instance.popLayer.GetComponent<setMainCamera>().setCamera();
+		if (popLayer == null) {
+			instance.popLayer = Instantiate(Resources.Load<GameObject>("prefab/popup/pop_layer"));
+		}
+        //instance.popLayer.GetComponent<setMainCamera>().setCamera();
         return popLayer.transform;
     }
-
-    public void show_save_load_window(int type) //0 load 1 save 2 new game (save and start)
-    {
-        if (save_load_window == null)
-        {
-            save_load_window = Instantiate(Resources.Load<GameObject>("prefab/save_load_window"), Get_popLayer());
-        }
-        else
-        {
-            int count = popup_manager.GetInstance().Get_popLayer().childCount;
-            save_load_window.transform.SetSiblingIndex(count - 1);
-        }
-
-        save_load_window.SetActive(false);
-        save_load_window.GetComponent<save_controller>().init(type);
-    }
-
 
     //yes no type
     public void show_normal_window(string title, string content, Action yesCB, Action noCB,bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
@@ -231,27 +216,6 @@ public class popup_manager : MonoBehaviour
 
         pop_Item.popup();
     }
-
-    public void show_mainGame_event(int type, bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
-    {
-        if (poppup_GameEvent == null)
-        {
-            poppup_GameEvent = Instantiate(Resources.Load<GameObject>("prefab/mainGame/GameEvent"), Get_popLayer());
-        }
-        else
-        {
-            int count = popup_manager.GetInstance().Get_popLayer().childCount;
-            poppup_GameEvent.transform.SetSiblingIndex(count - 1);
-        }
-
-        poppup_GameEvent.SetActive(false);
-
-        pop_item pop_Item = poppup_GameEvent.GetComponent<pop_item>();
-        pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
-        pop_Item.Setting_CB(openCB, closeCB);
-        pop_Item.Setting_onlyCB(onlyOpenCB, onlyCloseCB);
-    }
-
 
     public void closeAllPOPUP()
     {

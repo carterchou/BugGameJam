@@ -23,12 +23,7 @@ public class system_data : MonoBehaviour
     }
 
     public class save_data{
-        public List<string> GalleryID;
 
-        public save_data()
-        {
-            GalleryID = new List<string>();
-        }
     }
 
     save_data data;
@@ -36,12 +31,13 @@ public class system_data : MonoBehaviour
     public void init()
     {
         SaveGame.customSavePath = Path.Combine(Application.streamingAssetsPath, "data", "saveData");
-        if (SaveGame.Exists("save_data_system", SaveGamePath.CustomPath)) load();
-        else
-        {
-            data = new save_data();
-            updateSystemData();
-        }
+		if (SaveGame.Exists("save_data_system", SaveGamePath.CustomPath)) {
+			load();
+		}
+		else {
+			data = new save_data();
+			updateSystemData();
+		}
     }
 
     private void updateSystemData()
@@ -56,18 +52,5 @@ public class system_data : MonoBehaviour
         SaveGame.customSavePath = Path.Combine(Application.streamingAssetsPath, "data", "saveData");
         data = SaveGame.Load<system_data.save_data>("save_data_system", SaveGamePath.CustomPath);
         if (data == null) data = new save_data();
-    }
-
-    public bool CanShowInGallery(string GalleryID)
-    {
-        if (data.GalleryID == null) data.GalleryID = new List<string>();
-        return data.GalleryID.Contains(GalleryID);
-    }
-
-    public void Add_GalleryID(string ID)
-    {
-        if (data.GalleryID == null) data.GalleryID = new List<string>();
-        if (!data.GalleryID.Contains(ID)) data.GalleryID.Add(ID);
-        updateSystemData();
     }
 }

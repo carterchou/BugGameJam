@@ -44,20 +44,17 @@ public class closeManager : MonoBehaviour
         close_mission.Remove(mission);
     }
 
-    private void Update()
+	//註冊給Input Manager
+    private void UpdateMisson()
     {
         if (close_mission == null || closeLock > 0 || close_mission.Count <= 0) return;
 
-        if (Input.GetMouseButtonDown(1))
-        {
-            lockClose(true);
-            close_mission[close_mission.Count - 1]?.Invoke();
-            //Close_fromCloseManager()
-        }
+		lockClose(true);
+		close_mission[close_mission.Count - 1]?.Invoke();
+		//Close_fromCloseManager()
+	}
 
-    }
-
-    public void lockClose(bool blockAwhile = false)
+	public void lockClose(bool blockAwhile = false)
     {
         closeLock++;
         if(blockAwhile) Invoke("unlockClose", 0.25f);

@@ -6,14 +6,17 @@ using UnityEngine.SceneManagement;
 public class sceneChangeManager : MonoBehaviour
 {
     static sceneChangeManager instance;
+	public int progress;
 
-    public static sceneChangeManager GetInstance()
+
+	public static sceneChangeManager GetInstance()
     {
         if (instance == null)
         {
             GameObject temp = new GameObject("sceneChangeManager");
             instance = temp.AddComponent<sceneChangeManager>();
-            DontDestroyOnLoad(instance);
+			instance.progress = 0;
+			DontDestroyOnLoad(instance);
         }
 
         return instance;
@@ -21,12 +24,12 @@ public class sceneChangeManager : MonoBehaviour
 
     public void changeScene(string sceneName)
     {
-        StartCoroutine(work_sceneChange(sceneName));
+		loadingManager.GetInstance().StartLoading();
+		StartCoroutine(work_sceneChange(sceneName));
     }
 
     private IEnumerator work_sceneChange(string sceneName)
     {
-        loadingManager.GetInstance().StartLoading();
         int progress = 0;
 
         //背景載入

@@ -37,28 +37,22 @@ public class languageManager : MonoBehaviour
     public static void settingLanguage(string LanguageName)
     {
         if (nowLanguage == LanguageName) return;
-        
+
         if (LanguageName.Equals("zh-TW"))
         {
             Debug.Log("[Set language] zh_tw");
-            //flowChart_manager.Get_instance().Setting_localization("Zh_TW");
-            //flowChart_manager.Get_instance().localization_controller.SetActiveLanguage("Zh_TW",true);
             PlayerPrefs.SetString("LanguageSetting", "zh-TW");
             Language_index = 0;
         }
         else if (LanguageName.Contains("en"))
         {
             Debug.Log("[Set language] English");
-            //flowChart_manager.Get_instance().Setting_localization("EN");
-            //flowChart_manager.Get_instance().localization_controller.SetActiveLanguage("EN", true);
             PlayerPrefs.SetString("LanguageSetting", "en");
             Language_index = 1;
         }
         else
         {
             Debug.Log("[Set language] Standard");
-            //flowChart_manager.Get_instance().Setting_localization("Standard");
-            //flowChart_manager.Get_instance().localization_controller.SetActiveLanguage("Standard", true);
             PlayerPrefs.SetString("LanguageSetting", "Standard");
             Language_index = 1;
         }

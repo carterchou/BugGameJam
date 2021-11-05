@@ -15,11 +15,13 @@ public class preInit : MonoBehaviour
     {
         instance = this;
         loadingManager.GetInstance().initLoad();
-        closeManager.GetInstance().initClose();
-        loadingManager.GetInstance().StartLoading();
+		loadingManager.GetInstance().StartLoading();
+		closeManager.GetInstance().initClose();
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        //Debug.unityLogger.logEnabled = false;
-        IEnumerator_init();
+#if !UNITY_EDITOR
+		Debug.unityLogger.logEnabled = false;
+#endif
+		IEnumerator_init();
     }
     private void IEnumerator_init()
     {
@@ -47,9 +49,9 @@ public class preInit : MonoBehaviour
         //Global
         GlobalValueManager.GetInstance().update_data();
 
-        system_data.instance.init();
+        //system_data.instance.init(); 目前主選單不太有需要紀錄的東西
 
-        sceneChangeManager.GetInstance().changeScene("main");
+        sceneChangeManager.GetInstance().changeScene("title");
         loadingManager.GetInstance().DoneLoading();
     }
 
