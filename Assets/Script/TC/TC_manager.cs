@@ -50,31 +50,7 @@ public class TC_manager : MonoBehaviour
         {
             return "";
         }
-       
-    }
-
-    public string GetStroy_value(string key)
-    {
-        if (story_datas.Count <= 0) return "";
-
-        try
-        {
-            JsonData data = new JsonData();
-            for (int i = 0; i < story_datas.Count; i++)
-            {
-                if (story_datas[i]["key"].ToString().Equals(key))
-                {
-                    data = story_datas[i];
-                    break;
-                }
-            }
-
-            return data.Count > 0 ? data["value"][languageManager.Language_index].ToString() : "";
-        }
-        catch (Exception e)
-        {
-            return "";
-        }
 
     }
+
 }

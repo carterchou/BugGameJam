@@ -97,9 +97,8 @@ public class settingWindow : MonoBehaviour
     public void save_setting()
     {
         AudioManager.SetBGMVolume(bgm_volume.value);
-        AudioManager.SetBGSEVolume(bgSe_volume.value);
         AudioManager.SetSEVolume(se_volume.value);
-        AudioManager.SetVoiceVolume(voice_volume.value);
+        AudioManager.SetSoundVolume(voice_volume.value);
 
         int i = resolution.value;
         resolution_manager.settingResolution(resolution_manager.support_Resolutions[i].width, resolution_manager.support_Resolutions[i].height, fullscreen.isOn);

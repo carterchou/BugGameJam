@@ -5,14 +5,13 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     static string BGM_Name;
-    static string BGSE_Name;
-    static string Voice_Name;
+    static string SFX_Name;
 
-    static float se_volume;
-
-    static public void PlayBGM(string name, bool needLoop = true)
+	static public void PlayBGM(string name, bool needLoop = true, float fadeInSec = 0.5f, float fadeOut = 0.5f, float currentFadeOut = 0.5f, bool forcePlay = false)
     {
-        if (BGM_Name == name) return;
+		if (BGM_Name == name && forcePlay == false) {
+			return;
+		}
 
         AudioClip targetAC = Resources.Load<AudioClip>("audio/BGM/" + name);
 
@@ -22,134 +21,91 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        //Fungus.FungusManager.Instance.MusicManager.PlayMusic(targetAC, needLoop, 0.5f, 0);
-        BGM_Name = name;
+		Hellmade.Sound.EazySoundManager.PlayMusic(targetAC, Hellmade.Sound.EazySoundManager.GlobalMusicVolume, needLoop, true, fadeInSec, fadeOut, currentFadeOut, null);
+		BGM_Name = name;
     }
 
     static public void StopBGM()
     {
-        //Fungus.FungusManager.Instance.MusicManager.StopMusic();
-        BGM_Name = string.Empty;
+		Hellmade.Sound.EazySoundManager.StopAllMusic();
+		BGM_Name = string.Empty;
     }
 
     static public void PauseBGM()
     {
-        //Fungus.FungusManager.Instance.MusicManager.PauceMusic();
-    }
+		Hellmade.Sound.EazySoundManager.PauseAllMusic();
+	}
 
     static public void ResumeBGM()
     {
-        //Fungus.FungusManager.Instance.MusicManager.resumeMusic();
-    }
+		
+		Hellmade.Sound.EazySoundManager.ResumeAllMusic();
+	}
 
-    static public void PlayBGSE(string name, bool needLoop = false)
+	/// <summary>
+	/// 可多個疊加撥放
+	/// </summary>
+	/// <param name="name"></param>
+	static public void PlaySound(string name) {
+		AudioClip targetAC = Resources.Load<AudioClip>("audio/Sound/" + name);
+
+		if (targetAC == null) {
+			Debug.LogError("PlaySound Missing AudioClip : " + name);
+			return;
+		}
+
+		Hellmade.Sound.EazySoundManager.PlaySound(targetAC, Hellmade.Sound.EazySoundManager.GlobalSoundsVolume);
+	}
+
+	/// <summary>
+	/// 可多個疊加撥放
+	/// </summary>
+	/// <param name="name"></param>
+	static public void PlaySE(string name)
     {
-        //if (BGSE_Name == name) return;
-
         AudioClip targetAC = Resources.Load<AudioClip>("audio/SE/" + name);
 
         if (targetAC == null)
         {
-            Debug.LogError("PlayBGSE Missing AudioClip : " + name);
+            Debug.LogError("PlaySE Missing AudioClip : " + name);
             return;
         }
 
-        //Fungus.FungusManager.Instance.MusicManager.PlayAmbianceSound(targetAC, needLoop, 1);
-        //BGSE_Name = name;
-    }
-
-    static public void PauseBGSE()
-    {
-        //Fungus.FungusManager.Instance.MusicManager.PauceAmbiance();
-    }
-
-    static public void ResumeBGSE()
-    {
-        //Fungus.FungusManager.Instance.MusicManager.resumeAmbiance();
-    }
-
-    static public void PlayVoice(string name, bool needLoop = false)
-    {
-        //if (Voice_Name == name) return;
-
-        AudioClip targetAC = Resources.Load<AudioClip>("audio/voice/" + name);
-
-        if (targetAC == null)
-        {
-            Debug.LogError("PlayVoice Missing AudioClip : " + name);
-            return;
-        }
-
-        //Fungus.FungusManager.Instance.MusicManager.PlayVoiceSound(targetAC, needLoop, 1);
-        //Voice_Name = name;
-    }
-
-    static public void PauseVoice()
-    {
-        //Fungus.FungusManager.Instance.MusicManager.PauceVoice();
-    }
-
-    static public void ResumeVoice()
-    {
-        //Fungus.FungusManager.Instance.MusicManager.resumeVoice();
-    }
-
-    //無法終止，可多個疊加撥放
-    static public void PlaySE(string name)
-    {
-        //if (BGSE_Name == name) return;
-
-        AudioClip targetAC = Resources.Load<AudioClip>("audio/SE/" + name);
-
-        if (targetAC == null)
-        {
-            Debug.LogError("PlayBGSE Missing AudioClip : " + name);
-            return;
-        }
-
-        //Fungus.FungusManager.Instance.MusicManager.PlaySound(targetAC, se_volume);
-        //BGSE_Name = name;
-    }
+		Hellmade.Sound.EazySoundManager.PlayUISound(targetAC, Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume);
+	}
 
     static public void SetBGMVolume(float value)
     {
-        //Fungus.FungusManager.Instance.MusicManager.SetAudioVolume(value, 0.1f, null);
-        PlayerPrefs.SetFloat("BGMVolume", value);
+		Hellmade.Sound.EazySoundManager.GlobalMusicVolume = value;
+		PlayerPrefs.SetFloat("BGMVolume", value);
     }
 
-    static public void SetVoiceVolume(float value)
+    static public void SetSoundVolume(float value)
     {
-        //Fungus.FungusManager.Instance.MusicManager.SetAudioVoiceVolume(value, 0.1f, null);
-        PlayerPrefs.SetFloat("VoiceVolume", value);
-    }
-
-    static public void SetBGSEVolume(float value)
-    {
-        //Fungus.FungusManager.Instance.MusicManager.SetAudioAmbianceVolume(value, 0.1f, null);
-        PlayerPrefs.SetFloat("BGSEVolume", value);
+		Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume = value;
+		PlayerPrefs.SetFloat("SoundVolume", value);
     }
 
     static public void SetSEVolume(float value)
     {
-        se_volume = value;
+		Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume = value;
         PlayerPrefs.SetFloat("SEVolume", value);
     }
 
-    static public void StopVoice()
+    static public void StopSound()
     {
-        //Fungus.FungusManager.Instance.MusicManager.StopVoice();
-    }
+		Hellmade.Sound.EazySoundManager.StopAllSounds();
+	}
 
-    static public void StopBGSE()
+    static public void StopSFX()
     {
-        //Fungus.FungusManager.Instance.MusicManager.StopAmbiance();
-    }
+		Hellmade.Sound.EazySoundManager.StopAllUISounds();
+	}
 
     static public void initSetting()
     {
         SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume", 1));
         SetSEVolume(PlayerPrefs.GetFloat("SEVolume", 1));
-        SetVoiceVolume(PlayerPrefs.GetFloat("VoiceVolume", 1));
-        SetBGSEVolume(PlayerPrefs.GetFloat("BGSEVolume", 1));
+		SetSoundVolume(PlayerPrefs.GetFloat("SoundVolume", 1));
     }
 }

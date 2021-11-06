@@ -15,15 +15,16 @@ public class preInit : MonoBehaviour
     {
         instance = this;
         loadingManager.GetInstance().initLoad();
-		loadingManager.GetInstance().StartLoading();
 		closeManager.GetInstance().initClose();
+		loadingManager.GetInstance().StartLoading();		
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #if !UNITY_EDITOR
 		Debug.unityLogger.logEnabled = false;
 #endif
 		IEnumerator_init();
     }
-    private void IEnumerator_init()
+
+	private void IEnumerator_init()
     {
         CoroutineHub.GetInstance().StartCoroutine(IEnumerator_init_());
     }

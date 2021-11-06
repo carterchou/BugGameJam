@@ -5,7 +5,6 @@ using UnityEngine;
 public class menu : MonoBehaviour
 {
     public static menu instance;
-    public Transform mainLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +16,7 @@ public class menu : MonoBehaviour
 
     public void enterMenu()
     {
-        AudioManager.PlayBGM("norowaretapiano");
+        AudioManager.PlayBGM("title");
         closeManager.GetInstance().closeAllWindows();
         loadingManager.GetInstance().closeblockScreen();
 

@@ -8,7 +8,6 @@ public class sceneChangeManager : MonoBehaviour
     static sceneChangeManager instance;
 	public int progress;
 
-
 	public static sceneChangeManager GetInstance()
     {
         if (instance == null)
