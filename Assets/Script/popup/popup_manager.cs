@@ -11,10 +11,7 @@ public class popup_manager : MonoBehaviour
     public GameObject save_load_window;
     public List<GameObject> popup_normal_window;
     public GameObject setting_window;
-    public GameObject gallery_window;
     public GameObject poppup_gameMenu;
-    public GameObject poppup_GameEvent;
-    public GameObject popup_nameEditor;
 
     public static popup_manager GetInstance()
     {
@@ -41,20 +38,22 @@ public class popup_manager : MonoBehaviour
     }
 
     //yes no type
-    public void show_normal_window(string title, string content, Action yesCB, Action noCB,bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
+    public void show_normal_window(string title, string content, Action yesCB, Action noCB,bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false, pop_item.popType popType = pop_item.popType.normal, string btnLabel1 = "", string btnLabel2 = "")
     {
         for (int i = popup_normal_window.Count - 1; i >= 0; i--) if (popup_normal_window[i] == null) popup_normal_window.RemoveAt(i);
 
         if (popup_normal_window.Count == 0)
         {
-            GameObject temp = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normalWindow"), Get_popLayer());
+            GameObject temp = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normal"), Get_popLayer());
             popup_normal_window.Add(temp);
 
             temp.SetActive(false);
 
             pop_item pop_Item = temp.GetComponent<pop_item>();
             pop_Item.setting_btnType(pop_item.btnType.yes_no);
-            pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+			pop_Item.setting_popType(popType);
+			pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+			pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
             pop_Item.Setting_Title_content(title, content);
             pop_Item.Setting_BtnCB(yesCB, noCB);
             pop_Item.Setting_CB(openCB, closeCB);
@@ -63,12 +62,14 @@ public class popup_manager : MonoBehaviour
             pop_Item.popup();
         }else if (popup_normal_window.Count > 0 && popup_normal_window[popup_normal_window.Count - 1].activeSelf)
         {
-            GameObject temp_popup_normal_window = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normalWindow"), Get_popLayer());
+            GameObject temp_popup_normal_window = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normal"), Get_popLayer());
             popup_normal_window.Add(temp_popup_normal_window);
             temp_popup_normal_window.SetActive(false);
             pop_item pop_Item = temp_popup_normal_window.GetComponent<pop_item>();
             pop_Item.setting_btnType(pop_item.btnType.yes_no);
-            pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+			pop_Item.setting_popType(popType);
+			pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+			pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
             pop_Item.Setting_Title_content(title, content);
             pop_Item.Setting_BtnCB(yesCB, noCB);
             pop_Item.Setting_CB(openCB, closeCB);
@@ -85,7 +86,9 @@ public class popup_manager : MonoBehaviour
 
             pop_item pop_Item = popup_normal_window[0].GetComponent<pop_item>();
             pop_Item.setting_btnType(pop_item.btnType.yes_no);
-            pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+			pop_Item.setting_popType(popType);
+			pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+			pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
             pop_Item.Setting_Title_content(title, content);
             pop_Item.Setting_BtnCB(yesCB, noCB);
             pop_Item.Setting_CB(openCB, closeCB);
@@ -96,20 +99,22 @@ public class popup_manager : MonoBehaviour
     }
 
     //OK type
-    public void show_normal_window(string title, string content, Action okCB, bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
+    public void show_normal_window(string title, string content, Action okCB, bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false, pop_item.popType popType = pop_item.popType.normal, string btnLabel1 = "", string btnLabel2 = "")
     {
         for (int i = popup_normal_window.Count - 1; i >= 0; i--) if (popup_normal_window[i] == null) popup_normal_window.RemoveAt(i);
 
         if (popup_normal_window.Count == 0)
         {
-            GameObject temp = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normalWindow"), Get_popLayer());
+            GameObject temp = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normal"), Get_popLayer());
             popup_normal_window.Add(temp);
 
             temp.SetActive(false);
 
             pop_item pop_Item = temp.GetComponent<pop_item>();
             pop_Item.setting_btnType(pop_item.btnType.ok);
-            pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+			pop_Item.setting_popType(popType);
+			pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+			pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
             pop_Item.Setting_Title_content(title, content);
             pop_Item.Setting_BtnCB(okCB, null);
             pop_Item.Setting_CB(openCB, closeCB);
@@ -119,12 +124,14 @@ public class popup_manager : MonoBehaviour
         }
         else if (popup_normal_window.Count > 0 && popup_normal_window[popup_normal_window.Count - 1].activeSelf)
         {
-            GameObject temp_popup_normal_window = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normalWindow"), Get_popLayer());
+            GameObject temp_popup_normal_window = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_normal"), Get_popLayer());
             popup_normal_window.Add(temp_popup_normal_window);
             temp_popup_normal_window.SetActive(false);
             pop_item pop_Item = temp_popup_normal_window.GetComponent<pop_item>();
             pop_Item.setting_btnType(pop_item.btnType.ok);
-            pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+			pop_Item.setting_popType(popType);
+			pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+			pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
             pop_Item.Setting_Title_content(title, content);
             pop_Item.Setting_BtnCB(okCB, null);
             pop_Item.Setting_CB(openCB, closeCB);
@@ -141,7 +148,9 @@ public class popup_manager : MonoBehaviour
 
             pop_item pop_Item = popup_normal_window[0].GetComponent<pop_item>();
             pop_Item.setting_btnType(pop_item.btnType.ok);
-            pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+			pop_Item.setting_popType(popType);
+			pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+			pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
             pop_Item.Setting_Title_content(title, content);
             pop_Item.Setting_BtnCB(okCB, null);
             pop_Item.Setting_CB(openCB, closeCB);
@@ -149,28 +158,6 @@ public class popup_manager : MonoBehaviour
 
             pop_Item.popup();
         }
-    }
-
-    //only OK
-    public void show_nameEditor_window(Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
-    {
-        if (popup_nameEditor == null)
-        {
-            popup_nameEditor = Instantiate(Resources.Load<GameObject>("prefab/popup/popup_nameEditor"), Get_popLayer());
-        }
-        else
-        {
-            int count = popup_manager.GetInstance().Get_popLayer().childCount;
-            popup_nameEditor.transform.SetSiblingIndex(count - 1);
-        }
-
-        popup_nameEditor.SetActive(false);
-        pop_item pop_Item = popup_nameEditor.GetComponent<pop_item>();
-        pop_Item.Setting_needSE_fromCloseManager(false);
-        pop_Item.Setting_CB(openCB, closeCB);
-        pop_Item.Setting_onlyCB(onlyOpenCB, onlyCloseCB);
-        pop_Item.setting_btnType(pop_item.btnType.ok);
-        pop_Item.popup();
     }
 
     public void show_setting_window(bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
@@ -226,7 +213,5 @@ public class popup_manager : MonoBehaviour
         }
 
         if (poppup_gameMenu != null) poppup_gameMenu.SetActive(false);
-        if (poppup_GameEvent != null) poppup_GameEvent.SetActive(false);
-        if (popup_nameEditor != null) popup_nameEditor.SetActive(false);
     }
 }

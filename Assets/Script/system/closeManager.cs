@@ -29,9 +29,14 @@ public class closeManager : MonoBehaviour
         close_mission = new List<Action>();
         close_mission.Clear();
         closeLock = 0;
-    }
+		inputManager.GetInstance().ReigistInputMission(KeyCode.Escape, UpdateMisson, inputManager.InputType.KeyDown);
+	}
 
-    public void AddMission(Action mission)
+	private void OnDisable() {
+		inputManager.GetInstance().RemoveInputMission(KeyCode.Escape, UpdateMisson, inputManager.InputType.KeyDown);
+	}
+
+	public void AddMission(Action mission)
     {
         closeManager.GetInstance().lockClose(true);
         if (close_mission == null) close_mission = new List<Action>();

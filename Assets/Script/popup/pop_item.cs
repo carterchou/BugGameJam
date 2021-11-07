@@ -20,16 +20,27 @@ public class pop_item : MonoBehaviour
     public Text title;
     public Text content;
 
-    public GameObject[] btnTypeObj;
+	[Header("Yes / OK Type")]
+    public GameObject btn1;
+	public Text btn1_label;
+	[Header("No / Cancel Type")]
+	public GameObject btn2;
+	public Text btn2_label;
 
-    public enum btnType{
+	public enum btnType{
         ok,
         yes_no,
         other
     }
+	public enum popType
+	{
+		normal,
+		warning
+	}
 
-    btnType popType = btnType.other;
-    bool needLockClose = false;
+	btnType btn_Type = btnType.other;
+	popType pop_Type = popType.normal;
+	bool needLockClose = false;
 
     public void Setting_CB(Action open, Action close)
     {
@@ -60,27 +71,73 @@ public class pop_item : MonoBehaviour
 
     public void setting_btnType(btnType type)
     {
-        foreach(GameObject btnTypeObj_ in btnTypeObj)
-        {
-            btnTypeObj_.SetActive(false);
-        }
-
-        popType = type;
+		btn_Type = type;
 
         switch (type)
         {
             case btnType.ok:
                 needLockClose = true;
-                if(btnTypeObj.Length >= 1) btnTypeObj[0].SetActive(true);
-                break;
-            case btnType.yes_no:
-                if (btnTypeObj.Length >= 2) btnTypeObj[1].SetActive(true);
-                break;
-        }
 
+				if(btn1 != null) {
+					if (btn1.activeSelf == false) {
+						btn1.SetActive(true);
+					}
+				}
+				if (btn2 != null) {
+					if (btn2.activeSelf == true) {
+						btn2.SetActive(false);
+					}
+				}
+
+				break;
+            case btnType.yes_no:
+				if (btn1 != null) {
+					if (btn1.activeSelf == false) {
+						btn1.SetActive(true);
+					}
+				}
+				if (btn2 != null) {
+					if (btn2.activeSelf == false) {
+						btn2.SetActive(true);
+					}
+				}
+				break;
+        }
     }
 
-    public void Setting_BtnCB(Action btnCallBack, Action btnCallBack2)
+	public void setting_btnLable(string label1 = "", string label2 = "") {
+		if (string.IsNullOrEmpty(label1)) {
+			switch (btn_Type) {
+				case btnType.ok:
+					label1 = TC_manager.GetInstance().GetTC_value("button_ok");
+					break;
+				case btnType.yes_no:
+					label1 = TC_manager.GetInstance().GetTC_value("button_yes");
+					break;
+			}			
+		}
+		if (string.IsNullOrEmpty(label2)) {
+			switch (btn_Type) {
+				case btnType.yes_no:
+					label2 = TC_manager.GetInstance().GetTC_value("button_no");
+					break;
+			}
+		}
+
+		if(btn1_label != null) {
+			btn1_label.text = label1;
+			btn1_label.text = btn1_label.text.Replace("\\n", "\n");
+		}
+		if (btn2_label != null) {
+			btn2_label.text = label2;
+			btn2_label.text = btn2_label.text.Replace("\\n", "\n");
+		}
+	}
+	public void setting_popType(popType type = popType.normal) {
+		pop_Type = type;
+	}
+
+	public void Setting_BtnCB(Action btnCallBack, Action btnCallBack2)
     {
         this.btnCallBack += btnCallBack;
         this.btnCallBack2 += btnCallBack2;
@@ -113,18 +170,31 @@ public class pop_item : MonoBehaviour
     public void popup()
     {
         openCallBack?.Invoke();
-               
-        if (onlyOpenCallBack) return;
 
+		if (onlyOpenCallBack) {
+			return;
+		}
         gameObject.SetActive(true);
+
+		switch (pop_Type) {
+			case popType.normal:
+				AudioManager.PlaySE("open");
+				break;
+			case popType.warning:
+				AudioManager.PlaySE("warning");
+				break;
+		}
     }
     
     public void Close()
     {
         closeCallBack?.Invoke();
 
-        if (onlyCloseCallBack) return;
-        else gameObject.SetActive(false);
+		if (onlyCloseCallBack) {
+			return;
+		} else {
+			gameObject.SetActive(false);
+		}
     }
 
     private void OnEnable()
@@ -150,9 +220,12 @@ public class pop_item : MonoBehaviour
 
     void addToCloseManager()
     {
-        //closeManager.GetInstance().lockClose(true); // 參數為是否開啟短暫阻擋後解鎖
-        if (needLockClose) closeManager.GetInstance().AddMission(this.DoNothing);
-        else closeManager.GetInstance().AddMission(this.Close_fromCloseManager);
+		if (needLockClose) {
+			closeManager.GetInstance().AddMission(this.DoNothing);
+		}
+		else {
+			closeManager.GetInstance().AddMission(this.Close_fromCloseManager);
+		}
     }
 
     /// <summary>
@@ -161,7 +234,9 @@ public class pop_item : MonoBehaviour
     /// </summary>
     public void Close_fromCloseManager()
     {
-        if (needSE_fromCloseManager) AudioManager.PlaySE("close");
+		if (needSE_fromCloseManager) {
+			AudioManager.PlaySE("cancel");
+		}
         Close();
     }
 
@@ -169,8 +244,13 @@ public class pop_item : MonoBehaviour
 
     void removeFromCloseManager()
     {
-        if (needLockClose) closeManager.GetInstance().RemoveMission(this.DoNothing);
-        else closeManager.GetInstance().RemoveMission(this.Close_fromCloseManager);
-
+		if (needLockClose) { closeManager.GetInstance().RemoveMission(this.DoNothing);
+		} else {
+			closeManager.GetInstance().RemoveMission(this.Close_fromCloseManager);
+		}
     }
+
+	public btnType GetBtnType() {
+		return btn_Type;
+	}
 }

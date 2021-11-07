@@ -32,23 +32,19 @@ public class menu : MonoBehaviour
 
     public void Close() //若在menu按下右鍵，詢問是否離開遊戲
     {
-        
-        popup_manager.GetInstance().show_normal_window(TC_manager.GetInstance().GetTC_value("popup_exitTitle"), 
-            TC_manager.GetInstance().GetTC_value("popup_exitContent"),
-            () =>
-            {
+
+		popup_manager.GetInstance().show_normal_window(TC_manager.GetInstance().GetTC_value("popup_exitTitle"),
+			TC_manager.GetInstance().GetTC_value("popup_exitContent"),
+			() => {
 #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
+				UnityEditor.EditorApplication.isPlaying = false;
 #else
                 Application.Quit();
 #endif
-            },
-            null,
-            true,
-            () =>
-            {
-                AudioManager.PlaySE("open");
-            }           
+			},
+			null,
+			needSE_fromCloseManager: true,
+			popType: pop_item.popType.warning
         );
 
 
