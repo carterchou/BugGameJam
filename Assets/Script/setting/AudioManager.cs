@@ -7,6 +7,8 @@ public class AudioManager : MonoBehaviour
     static string BGM_Name;
     static string SFX_Name;
 
+	static float se_volume;
+
 	static public void PlayBGM(string name, bool needLoop = true, float fadeInSec = 0.5f, float fadeOut = 0.5f, float currentFadeOut = 0.5f, bool forcePlay = false)
     {
 		if (BGM_Name == name && forcePlay == false) {
@@ -21,25 +23,25 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-		Hellmade.Sound.EazySoundManager.PlayMusic(targetAC, Hellmade.Sound.EazySoundManager.GlobalMusicVolume, needLoop, true, fadeInSec, fadeOut, currentFadeOut, null);
+		Fungus.FungusManager.Instance.MusicManager.PlayMusic(targetAC, needLoop, 0.5f, 0);
 		BGM_Name = name;
     }
 
     static public void StopBGM()
     {
-		Hellmade.Sound.EazySoundManager.StopAllMusic();
+		Fungus.FungusManager.Instance.MusicManager.StopMusic();
 		BGM_Name = string.Empty;
     }
 
     static public void PauseBGM()
     {
-		Hellmade.Sound.EazySoundManager.PauseAllMusic();
+		//Fungus.FungusManager.Instance.MusicManager.();
 	}
 
     static public void ResumeBGM()
     {
-		
-		Hellmade.Sound.EazySoundManager.ResumeAllMusic();
+
+		//Fungus.FungusManager.Instance.MusicManager.resumeMusic();
 	}
 
 	/// <summary>
@@ -54,7 +56,7 @@ public class AudioManager : MonoBehaviour
 			return;
 		}
 
-		Hellmade.Sound.EazySoundManager.PlaySound(targetAC, Hellmade.Sound.EazySoundManager.GlobalSoundsVolume);
+		//Hellmade.Sound.EazySoundManager.PlaySound(targetAC, Hellmade.Sound.EazySoundManager.GlobalSoundsVolume);
 	}
 
 	/// <summary>
@@ -71,35 +73,35 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-		Hellmade.Sound.EazySoundManager.PlayUISound(targetAC, Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume);
+		//Hellmade.Sound.EazySoundManager.PlayUISound(targetAC, Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume);
 	}
 
     static public void SetBGMVolume(float value)
     {
-		Hellmade.Sound.EazySoundManager.GlobalMusicVolume = value;
+		//Hellmade.Sound.EazySoundManager.GlobalMusicVolume = value;
 		PlayerPrefs.SetFloat("BGMVolume", value);
     }
 
     static public void SetSoundVolume(float value)
     {
-		Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume = value;
+		//Hellmade.Sound.EazySoundManager.GlobalSoundsVolume = value;
 		PlayerPrefs.SetFloat("SoundVolume", value);
     }
 
     static public void SetSEVolume(float value)
     {
-		Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume = value;
+		//Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume = value;
         PlayerPrefs.SetFloat("SEVolume", value);
     }
 
     static public void StopSound()
     {
-		Hellmade.Sound.EazySoundManager.StopAllSounds();
+		//Hellmade.Sound.EazySoundManager.StopAllSounds();
 	}
 
     static public void StopSFX()
     {
-		Hellmade.Sound.EazySoundManager.StopAllUISounds();
+		//Hellmade.Sound.EazySoundManager.StopAllUISounds();
 	}
 
     static public void initSetting()

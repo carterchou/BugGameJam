@@ -52,7 +52,7 @@ public class menu : MonoBehaviour
 
     public void Setting()
     {
-        popup_manager.GetInstance().show_setting_window();
+        popup_manager.GetInstance().show_setting_window(btnLabel1: TC_manager.GetInstance().GetTC_value("button_save"), btnLabel2: TC_manager.GetInstance().GetTC_value("button_cancel"));
     }
 
     public void start_NewGame()

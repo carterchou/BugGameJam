@@ -160,7 +160,7 @@ public class popup_manager : MonoBehaviour
         }
     }
 
-    public void show_setting_window(bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false)
+    public void show_setting_window(bool needSE_fromCloseManager = true, Action openCB = null, Action closeCB = null, bool onlyOpenCB = false, bool onlyCloseCB = false, string btnLabel1 = "", string btnLabel2 = "")
     {
         if (setting_window == null)
         {
@@ -175,7 +175,8 @@ public class popup_manager : MonoBehaviour
         setting_window.SetActive(false);
 
         pop_item pop_Item = setting_window.GetComponent<pop_item>();
-        pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
+		pop_Item.setting_btnLable(btnLabel1, btnLabel2);
+		pop_Item.Setting_needSE_fromCloseManager(needSE_fromCloseManager);
         pop_Item.Setting_CB(openCB, closeCB);
         pop_Item.Setting_onlyCB(onlyOpenCB, onlyCloseCB);
 

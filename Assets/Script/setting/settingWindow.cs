@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class settingWindow : MonoBehaviour
 {
     public Slider bgm_volume;
-    public Slider bgSe_volume;
+    public Slider sound_volume;
     public Slider se_volume;
-    public Slider voice_volume;
     public Dropdown language;
     public Dropdown resolution;
     public Toggle fullscreen;
@@ -25,10 +24,9 @@ public class settingWindow : MonoBehaviour
         yield return 0;
 
         bgm_volume.value = PlayerPrefs.GetFloat("BGMVolume", 1);
-        bgSe_volume.value = PlayerPrefs.GetFloat("BGSEVolume", 1);
+		sound_volume.value = PlayerPrefs.GetFloat("SoundVolume", 1);
         se_volume.value = PlayerPrefs.GetFloat("SEVolume", 1);
-        voice_volume.value = PlayerPrefs.GetFloat("VoiceVolume", 1);
-
+		
 
         resolution.ClearOptions();
 
@@ -98,7 +96,7 @@ public class settingWindow : MonoBehaviour
     {
         AudioManager.SetBGMVolume(bgm_volume.value);
         AudioManager.SetSEVolume(se_volume.value);
-        AudioManager.SetSoundVolume(voice_volume.value);
+        AudioManager.SetSoundVolume(sound_volume.value);
 
         int i = resolution.value;
         resolution_manager.settingResolution(resolution_manager.support_Resolutions[i].width, resolution_manager.support_Resolutions[i].height, fullscreen.isOn);
