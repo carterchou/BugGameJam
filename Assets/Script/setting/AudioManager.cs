@@ -35,20 +35,20 @@ public class AudioManager : MonoBehaviour
 
     static public void PauseBGM()
     {
-		//Fungus.FungusManager.Instance.MusicManager.();
+		Fungus.FungusManager.Instance.MusicManager.PauceMusic();
 	}
 
     static public void ResumeBGM()
     {
 
-		//Fungus.FungusManager.Instance.MusicManager.resumeMusic();
+		Fungus.FungusManager.Instance.MusicManager.resumeMusic();
 	}
 
 	/// <summary>
 	/// 可多個疊加撥放
 	/// </summary>
 	/// <param name="name"></param>
-	static public void PlaySound(string name) {
+	static public void PlaySound(string name, bool needLoop = true) {
 		AudioClip targetAC = Resources.Load<AudioClip>("audio/Sound/" + name);
 
 		if (targetAC == null) {
@@ -56,7 +56,7 @@ public class AudioManager : MonoBehaviour
 			return;
 		}
 
-		//Hellmade.Sound.EazySoundManager.PlaySound(targetAC, Hellmade.Sound.EazySoundManager.GlobalSoundsVolume);
+		Fungus.FungusManager.Instance.MusicManager.PlayAmbianceSound(targetAC, needLoop, 1);
 	}
 
 	/// <summary>
@@ -73,38 +73,30 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-		//Hellmade.Sound.EazySoundManager.PlayUISound(targetAC, Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume);
+		Fungus.FungusManager.Instance.MusicManager.PlaySound(targetAC, se_volume);
 	}
 
-    static public void SetBGMVolume(float value)
-    {
-		//Hellmade.Sound.EazySoundManager.GlobalMusicVolume = value;
+	static public void SetBGMVolume(float value) {
+		Fungus.FungusManager.Instance.MusicManager.SetAudioVolume(value, 0.1f, null);
 		PlayerPrefs.SetFloat("BGMVolume", value);
-    }
+	}
 
-    static public void SetSoundVolume(float value)
-    {
-		//Hellmade.Sound.EazySoundManager.GlobalSoundsVolume = value;
+	static public void SetSoundVolume(float value) {
+		Fungus.FungusManager.Instance.MusicManager.SetAudioAmbianceVolume(value, 0.1f, null);
 		PlayerPrefs.SetFloat("SoundVolume", value);
-    }
-
-    static public void SetSEVolume(float value)
-    {
-		//Hellmade.Sound.EazySoundManager.GlobalUISoundsVolume = value;
-        PlayerPrefs.SetFloat("SEVolume", value);
-    }
-
-    static public void StopSound()
-    {
-		//Hellmade.Sound.EazySoundManager.StopAllSounds();
 	}
 
-    static public void StopSFX()
-    {
-		//Hellmade.Sound.EazySoundManager.StopAllUISounds();
+	static public void SetSEVolume(float value) {
+		se_volume = value;
+		PlayerPrefs.SetFloat("SEVolume", value);
 	}
 
-    static public void initSetting()
+	static public void StopSound()
+    {
+		Fungus.FungusManager.Instance.MusicManager.StopAmbiance();
+	}
+
+	static public void initSetting()
     {
         SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume", 1));
         SetSEVolume(PlayerPrefs.GetFloat("SEVolume", 1));

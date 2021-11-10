@@ -1,4 +1,4 @@
-// This code is part of the Fungus library (https://github.com/snozbot/fungus)
+// This code is part of the Fungus library (http://fungusgames.com) maintained by Chris Gregan (http://twitter.com/gofungus).
 // It is released for free under the MIT open source license (https://github.com/snozbot/fungus/blob/master/LICENSE)
 
 using UnityEngine;
@@ -15,11 +15,12 @@ namespace Fungus
         protected AudioSource audioSourceMusic;
         protected AudioSource audioSourceAmbiance;
         protected AudioSource audioSourceSoundEffect;
+        protected AudioSource audioSourceVoice;
 
         void Reset()
         {
             int audioSourceCount = this.GetComponents<AudioSource>().Length;
-            for (int i = 0; i < 3 - audioSourceCount; i++)
+            for (int i = 0; i < 4 - audioSourceCount; i++)
                 gameObject.AddComponent<AudioSource>();
 
         }
@@ -31,6 +32,7 @@ namespace Fungus
             audioSourceMusic = audioSources[0];
             audioSourceAmbiance = audioSources[1];
             audioSourceSoundEffect = audioSources[2];
+            audioSourceVoice = audioSources[3];
         }
 
         protected virtual void Start()
@@ -90,6 +92,7 @@ namespace Fungus
 
         /// <summary>
         /// Plays a sound effect with optional looping values, at the specified volume.
+        /// 音量設定無效，請直接用setting的調整
         /// </summary>
         /// <param name="soundClip">The sound effect clip to play.</param>
         /// <param name="loop">If the audioclip should loop or not.</param>
@@ -98,8 +101,23 @@ namespace Fungus
         {
             audioSourceAmbiance.loop = loop;
             audioSourceAmbiance.clip = soundClip;
-            audioSourceAmbiance.volume = volume;
+            //audioSourceAmbiance.volume = volume;
             audioSourceAmbiance.Play();
+        }
+
+        /// <summary>
+        /// Plays a sound effect with optional looping values, at the specified volume.
+        /// 音量設定無效，請直接用setting的調整
+        /// </summary>
+        /// <param name="soundClip">The sound effect clip to play.</param>
+        /// <param name="loop">If the audioclip should loop or not.</param>
+        /// <param name="volume">The volume level of the sound effect.</param>
+        public virtual void PlayVoiceSound(AudioClip soundClip, bool loop, float volume)
+        {
+            audioSourceVoice.loop = loop;
+            audioSourceVoice.clip = soundClip;
+            //audioSourceAmbiance.volume = volume;
+            audioSourceVoice.Play();
         }
 
         /// <summary>
@@ -152,7 +170,6 @@ namespace Fungus
                     onComplete();
                 }
                 audioSourceMusic.volume = volume;
-                audioSourceAmbiance.volume = volume;
                 return;
             }
 
@@ -161,7 +178,62 @@ namespace Fungus
                 volume,
                 duration).setOnUpdate((v) => {
                     audioSourceMusic.volume = v;
+                }).setOnComplete(() => {
+                    if (onComplete != null)
+                    {
+                        onComplete();
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Fades the game music volume to required level over a period of time.
+        /// </summary>
+        /// <param name="volume">The new music volume value [0..1]</param>
+        /// <param name="duration">The length of time in seconds needed to complete the volume change.</param>
+        /// <param name="onComplete">Delegate function to call when fade completes.</param>
+        public virtual void SetAudioAmbianceVolume(float volume, float duration, System.Action onComplete)
+        {
+            if (Mathf.Approximately(duration, 0f))
+            {
+                if (onComplete != null)
+                {
+                    onComplete();
+                }
+                audioSourceAmbiance.volume = volume;
+                return;
+            }
+
+            LeanTween.value(gameObject,
+                audioSourceAmbiance.volume,
+                volume,
+                duration).setOnUpdate((v) => {
                     audioSourceAmbiance.volume = v;
+                }).setOnComplete(() => {
+                    if (onComplete != null)
+                    {
+                        onComplete();
+                    }
+                });
+        }
+
+        public virtual void SetAudioVoiceVolume(float volume, float duration, System.Action onComplete)
+        {
+            if (Mathf.Approximately(duration, 0f))
+            {
+                if (onComplete != null)
+                {
+                    onComplete();
+                }
+                audioSourceVoice.volume = volume;
+                return;
+            }
+
+            LeanTween.value(gameObject,
+                audioSourceVoice.volume,
+                volume,
+                duration).setOnUpdate((v) => {
+                    audioSourceVoice.volume = v;
                 }).setOnComplete(() => {
                     if (onComplete != null)
                     {
@@ -179,6 +251,23 @@ namespace Fungus
             audioSourceMusic.clip = null;
         }
 
+
+        /// <summary>
+        /// Pauce playing game music.
+        /// </summary>
+        public virtual void PauceMusic()
+        {
+            audioSourceMusic.Pause();
+        }
+
+        /// <summary>
+        /// UnPause playing game music.
+        /// </summary>
+        public virtual void resumeMusic()
+        {
+            audioSourceMusic.UnPause();
+        }
+
         /// <summary>
         /// Stops playing game ambiance.
         /// </summary>
@@ -186,6 +275,47 @@ namespace Fungus
         {
             audioSourceAmbiance.Stop();
             audioSourceAmbiance.clip = null;
+        }
+
+        /// <summary>
+        /// Pauce playing game ambiance.
+        /// </summary>
+        public virtual void PauceAmbiance()
+        {
+            audioSourceAmbiance.Pause();
+        }
+
+        /// <summary>
+        /// UnPause playing game ambiance.
+        /// </summary>
+        public virtual void resumeAmbiance()
+        {
+            audioSourceAmbiance.UnPause();
+        }
+
+        /// <summary>
+        /// Stops playing game voice.
+        /// </summary>
+        public virtual void StopVoice()
+        {
+            audioSourceVoice.Stop();
+            audioSourceVoice.clip = null;
+        }
+
+        /// <summary>
+        /// Pauce playing game voice.
+        /// </summary>
+        public virtual void PauceVoice()
+        {
+            audioSourceVoice.Pause();
+        }
+
+        /// <summary>
+        /// UnPause playing game voice.
+        /// </summary>
+        public virtual void resumeVoice()
+        {
+            audioSourceVoice.UnPause();
         }
 
         #endregion

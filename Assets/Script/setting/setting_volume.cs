@@ -11,18 +11,35 @@ public class setting_volume : MonoBehaviour
 
     public void updateText()
     {
-        value_text.text = Math.Round(slider.value * 100).ToString();
+		if(slider == null || value_text == null) {
+			return;
+		}
+		float TextValue = 0;
+		try {
+			TextValue = Convert.ToInt32(value_text.text) / 100.0f;
+		}
+		catch (Exception e) {
+			return;
+		}
+		if(TextValue != slider.value) {
+			value_text.text = Math.Round(slider.value * 100).ToString();
+		}		
     }
 
-    public void updateSlider()
-    {
-        try
-        {
-            slider.value = Convert.ToInt32(value_text.text) / 100.0f;
-        }
-        catch (Exception e)
-        {
-
-        }
-    }
+    public void updateSlider() {
+		if (slider == null || value_text == null) {
+			return;
+		}
+		float TextValue = 0;
+		try {
+			TextValue = Convert.ToInt32(value_text.text) / 100.0f;
+		}
+		catch (Exception e) {
+			return;
+		}
+		if (TextValue != slider.value) {
+			slider.value = Convert.ToInt32(value_text.text) / 100.0f;
+		}
+		
+	}
 }
