@@ -34,7 +34,7 @@ public class pop_nameEditor : MonoBehaviour
 
     void modifyName()
     {
-        userData.instance.GetUserData().name = input_name.text;
+		//userData.instance.GetUserData().name = input_name.text;
         //flowChart_manager.Get_instance().flowcharts[0].SetStringVariable("playerName", userData.instance.GetUserData().name);
         //flowChart_manager.Get_instance().flowcharts[(int)nextStroyType].SendFungusMessage(nextBlock);
         //flowChart_manager.Get_instance().flowcharts[0].SetBooleanVariable("isWaiting", false);

@@ -177,7 +177,7 @@ public class save_item : MonoBehaviour
         SaveGame.customSavePath = Path.Combine(Application.streamingAssetsPath, "data", "saveData");
         data = SaveGame.Load<userData.save_data>("save_data_" + item_id, SaveGamePath.CustomPath);
         text_id.text = String.Format("No.{0}", data.id);
-        text_data.text = String.Format("{0} {1}\n{2}{3}", TC_manager.GetInstance().GetTC_value("day"), data.game_day, TC_manager.GetInstance().GetTC_value("saiminLV"), data.skill.saiminLV);
+        //text_data.text = String.Format("{0} {1}\n{2}{3}", TC_manager.GetInstance().GetTC_value("day"), data.game_day, TC_manager.GetInstance().GetTC_value("saiminLV"), data.skill.saiminLV);
         text_data.text = text_data.text.Replace("\\n", "\n");
         int hour = (int)data.playTime.TotalSeconds / 3600;
         int minute = ((int)data.playTime.TotalSeconds % 3600) / 60;
