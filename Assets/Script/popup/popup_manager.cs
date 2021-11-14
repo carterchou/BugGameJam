@@ -205,7 +205,22 @@ public class popup_manager : MonoBehaviour
         pop_Item.popup();
     }
 
-    public void closeAllPOPUP()
+	public void show_save_load_window(int type) //0 load 1 save 2 new game (save and start)
+{
+		if (save_load_window == null) {
+			save_load_window = Instantiate(Resources.Load<GameObject>("prefab/save_load_window"), Get_popLayer());
+		}
+		else {
+			int count = popup_manager.GetInstance().Get_popLayer().childCount;
+			save_load_window.transform.SetSiblingIndex(count - 1);
+		}
+
+		save_load_window.SetActive(false);
+		save_load_window.GetComponent<save_controller>().init(type);
+	}
+
+
+	public void closeAllPOPUP()
     {
         for (int i = popup_normal_window.Count - 1; i >= 0; i--) if (popup_normal_window[i] == null) popup_normal_window.RemoveAt(i);
         foreach (GameObject popup_normal_window_ in popup_normal_window)

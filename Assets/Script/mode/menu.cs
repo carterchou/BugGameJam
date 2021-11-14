@@ -62,7 +62,7 @@ public class menu : MonoBehaviour
 
     public void load()
     {
-        //popup_manager.GetInstance().show_save_load_window(0);
+        popup_manager.GetInstance().show_save_load_window(0);
     }
 
 }
