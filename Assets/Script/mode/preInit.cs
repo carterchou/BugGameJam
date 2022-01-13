@@ -50,9 +50,14 @@ public class preInit : MonoBehaviour
         //Global
         GlobalValueManager.GetInstance().update_data();
 
-        //system_data.instance.init(); 目前主選單不太有需要紀錄的東西
+		//Data
+		effectData.update_data();
+		itemData.update_data();
+		commandData.update_data();
 
-        sceneChangeManager.GetInstance().changeScene("title");
+		//system_data.instance.init(); 目前主選單不太有需要紀錄的東西
+
+		sceneChangeManager.GetInstance().changeScene("title");
         loadingManager.GetInstance().DoneLoading();
     }
 
